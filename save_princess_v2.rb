@@ -11,7 +11,7 @@ modify the header of the method "nextMove"..
 =end
 
 def nextMove(n,r,c,grid)
-  puts grid
+  #puts grid
   m = Array.new(2) #coordinate of robot in the grid
   p = Array.new(2) #coordinate of princess in the grid
   m[0], m[1] = r, c
