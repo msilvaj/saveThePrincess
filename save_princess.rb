@@ -1,45 +1,60 @@
 #!/bin/ruby
-def displayPathtoPrincess(n,grid)
-  m = Array.new(2) #coordinate of robot in the grid
-  p = Array.new(2) #coordinate of princess in the grid
-  m[0], m[1] = 0, 0
-  p[0], p[1] = 0, 0 
- 
-  for i in (0..(n - 1))
-    for j in (0..(n - 1)) 
-      if grid[i][j] == 'm'
-        m[0], m[1] = i, j
-      elsif grid[i][j] == 'p'
-        p[0], p[1] = i, j
+# frozen_string_literal: true
+
+def show_movement(princess, bot)
+  if bot[0] >= princess[0]
+    print "UP\n" * (bot[0] - princess[0])
+  else
+    print "DOWN\n" * (princess[0] - bot[0])
+  end
+
+  if bot[1] >= princess[1]
+    print "LEFT\n" * (bot[1] - princess[1])
+  else
+    print "RIGHT\n" * (princess[1] - bot[1])
+  end
+end
+
+def find_positions(bot, princess, board_size, grid)
+  (0..(board_size - 1)).each do |i|
+    (0..(board_size - 1)).each do |j|
+      case grid[i][j]
+      when 'm'
+        bot[0] = i
+        bot[1] = j
+      when 'p'
+        princess[0] = i
+        princess[1] = j
       end
     end
   end
- 
-  if m[0] >= p[0]
-    print "UP\n" * (m[0] - p[0])
-  else
-    print "DOWN\n" * (p[0] - m[0])
-  end
- 
-  if m[1] >= p[1]
-    print "LEFT\n" * (m[1] - p[1])
-  else
-    print "RIGHT\n" * (p[1] - m[1])
-  end
-  return ""
 end
- 
-m = gets.to_i
 
-if m.odd? && m >= 3 && m < 100 
-  grid = Array.new(m)
+def display_path_to_princess(board_size, grid)
+  m = Array.new(2) # coordinate of robot in the grid
+  p = Array.new(2) # coordinate of princess in the grid
+  m[0] = 0
+  m[1] = 0
+  p[0] = 0
+  p[1] = 0
 
-  (0...m).each do |i|
+  find_positions(m, p, board_size, grid)
+
+  show_movement(p, m)
+  ''
+end
+
+dimension = gets.to_i
+
+if dimension.odd? && dimension >= 3 && dimension < 100
+  grid = Array.new(dimension)
+
+  (0...dimension).each do |i|
     grid[i] = gets.strip
   end
 
-  displayPathtoPrincess(m,grid)
+  display_path_to_princess(dimension, grid)
 else
-  puts "Verify Input"
-  puts "Must be odd, >=3 and <100"
+  puts 'Verify Input'
+  puts 'Must be odd, >=3 and <100'
 end
